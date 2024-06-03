@@ -38,9 +38,7 @@ class Household:
                 elif isinstance(c["CLASS"], list):
                     df = pd.DataFrame(c["CLASS"])
 
-                return df.rename(columns={"@code": c["@id"], "@name": c["@name"]})[
-                    [c["@id"], c["@name"]]
-                ]
+                return df.rename(columns={"@code": c["@id"], "@name": c["@name"]})[[c["@id"], c["@name"]]]
 
     def dataframe(self):
         df = self.value
