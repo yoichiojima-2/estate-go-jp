@@ -10,8 +10,7 @@ class Household:
 
     def fetch(self):
         self.res = requests.get(
-            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
-            f"?appId={os.getenv('APP_ID')}&lang=J&statsDataId=0003000808"
+            f"http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId={os.getenv("APP_ID")}&lang=J&statsDataId=0002190004"
         ).json()["GET_STATS_DATA"]["STATISTICAL_DATA"]
 
     @property

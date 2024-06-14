@@ -10,8 +10,7 @@ class Household:
 
     def fetch(self):
         self.res = requests.get(
-            "http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData"
-            f"?appId={os.getenv('APP_ID')}&lang=J&statsDataId=0003000808"
+            f"http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId={os.getenv("APP_ID")}&lang=J&statsDataId=0002190004"
         ).json()["GET_STATS_DATA"]["STATISTICAL_DATA"]
 
     @property
@@ -38,9 +37,8 @@ class Household:
                 elif isinstance(c["CLASS"], list):
                     df = pd.DataFrame(c["CLASS"])
 
-                return df.rename(columns={"@code": c["@id"], "@name": c["@name"]})[
-                    [c["@id"], c["@name"]]
-                ]
+                df = df.rename(columns={"@code": c["@id"], "@name": c["@name"]})
+                return df[[c["@id"], c["@name"]]]
 
     def dataframe(self):
         df = self.value
@@ -48,6 +46,6 @@ class Household:
             df = (
                 df.merge(self.get_class(cls["@id"]), on=cls["@id"])
                 .drop(columns=[cls["@id"]])
-                .rename(columns={"$": "値", "unit": "単位"})
             )
+        df = df.rename(columns={"$": "値", "unit": "単位"})
         return df[[*[c["@name"] for c in self.classes], "単位", "値"]]
