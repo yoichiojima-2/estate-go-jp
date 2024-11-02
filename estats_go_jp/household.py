@@ -43,9 +43,8 @@ class Household:
     def dataframe(self):
         df = self.value
         for cls in self.classes:
-            df = (
-                df.merge(self.get_class(cls["@id"]), on=cls["@id"])
-                .drop(columns=[cls["@id"]])
+            df = df.merge(self.get_class(cls["@id"]), on=cls["@id"]).drop(
+                columns=[cls["@id"]]
             )
         df = df.rename(columns={"$": "値", "unit": "単位"})
         return df[[*[c["@name"] for c in self.classes], "単位", "値"]]
